@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useCharacter } from "@/hooks/useCharacterInfo";
-import styles from "./CharacterPage.module.scss";
+import styles from "./characterPage.module.scss";
 import { Loader } from "@/components/loader";
 
 export const CharacterPage = () => {

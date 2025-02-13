@@ -1,0 +1,26 @@
+.characterPage {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.imageLink {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: var(--blue);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 24px;
+
+  &:hover {
+    background-color: var(--blue);
+  }
+}
+
+.details {
+  font-size: 26px;
+  gap: 26px;
+}

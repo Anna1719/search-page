@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useSearchResults } from "@/hooks/fetchSearchResult";
+import { useSearchResults } from "@/hooks/useSearchResult";
 import { useSearchParams } from "react-router-dom";
 import { SearchBar } from "@/components/searchBar";
 import { CharacterList } from "@/components/characterList";
 import { Pagination } from "@/components/pagination";
-import styles from "./App.module.scss";
+import styles from "./SearchPage.module.scss";
 import { AxiosError } from "axios";
 import { Loader } from "@/components/loader";
 
-export const App = () => {
+export const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlQuery = searchParams.get("query") || "";
   const urlPage = searchParams.get("page") || "1";
@@ -70,5 +70,3 @@ export const App = () => {
     </div>
   );
 };
-
-export default App;

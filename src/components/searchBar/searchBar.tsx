@@ -1,20 +1,21 @@
 import styles from "./searchBar.module.scss";
 
-interface SearchBarProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}
+type InputType = React.InputHTMLAttributes<HTMLInputElement>;
 
-export const SearchBar = ({ searchTerm, setSearchTerm }: SearchBarProps) => {
+type TProps = Omit<InputType, "placeholder"> & {
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+};
 
+export const SearchBar = ({ onChange, value }: TProps) => {
   return (
     <input
-      autoFocus
+      className={styles.input}
       type="search"
       placeholder="Search characters..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className={styles.input}
+      autoFocus
+      onChange={onChange}
+      value={value}
     />
   );
 };

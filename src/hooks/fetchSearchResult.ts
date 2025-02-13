@@ -1,23 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import { RickAndMortyApiResponse } from "@/utils/types";
+import { SearchResult } from "@/utils/types";
+import api from "./axiosInstance";
 
-const fetchCharacters = async (
-  name: string,
+export const fetchResults = async (
+  query: string,
   page: number
-): Promise<RickAndMortyApiResponse> => {
-  const url = `https://rickandmortyapi.com/api/character/?page=${page}&name=${name}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  return response.json();
+): Promise<SearchResult> => {
+  const params = {
+    name: query,
+    page,
+  };
+  const { data } = await api.get<SearchResult>("/api/character", { params });
+  return data;
 };
 
-export const useFetchCharacters = (name: string, page: number) => {
-  return useQuery<RickAndMortyApiResponse, Error>({
-    queryKey: ["characters", name, page],
-    queryFn: () => fetchCharacters(name, page),
-    enabled: name.length >= 3,
+export const useSearchResults = (query: string, page: number) => {
+  return useQuery<SearchResult>({
+    queryKey: ["search", query, page],
+    queryFn: () => fetchResults(query, page),
+    enabled: !!query && query?.length > 3,
+    staleTime: 30000,
     retry: false,
   });
 };

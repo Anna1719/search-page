@@ -1,9 +1,19 @@
 .input {
   width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  font-size: 16px;
+  max-width: 626px;
+  padding: 20px;
+  font-size: 24px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: none;
+  filter: drop-shadow(0px 8px 8px rgba(99, 99, 110, 0.288));
+
+  &:focus{
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--violet);
+    font-weight: 600;
+    opacity: 1; 
+  }
 }

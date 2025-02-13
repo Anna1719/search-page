@@ -19,7 +19,7 @@ export interface Character {
   created: string;
 }
 
-export interface RickAndMortyApiResponse {
+export interface SearchResult {
   info: {
     count: number;
     pages: number;

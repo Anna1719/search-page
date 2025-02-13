@@ -1,16 +1,30 @@
-.app {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 20px;
-}
+.search {
+  max-width: 1920px;
+  margin: 128px 100px 80px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
-.title {
-  font-size: 2em;
-  margin-bottom: 20px;
+  @media (max-width: 1200px) {
+    margin: 128px 80px 80px;
+  }
+
+  @media (max-width: 992px) {
+    margin: 128px 40px 80px;
+  }
 }
 
 .foundText {
-  font-size: 1.2em;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 626px;
+  &__number {
+    font-family: "Montserrat", serif;
+    text-align: left;
+    font-size: 16px;
+    margin: 0 0 20px 20px;
+
+    @media (max-width: 510px) {
+      font-size: 14px;
+    }
+  }
 }

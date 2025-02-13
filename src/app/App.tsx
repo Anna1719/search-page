@@ -1,63 +1,72 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useFetchCharacters } from "@/hooks/fetchSearchResult";
+import { useSearchResults } from "@/hooks/fetchSearchResult";
 import { useSearchParams } from "react-router-dom";
 import { SearchBar } from "@/components/searchBar";
 import { CharacterList } from "@/components/characterList";
 import { Pagination } from "@/components/pagination";
 import styles from "./App.module.scss";
+import { AxiosError } from "axios";
+import { Loader } from "@/components/loader";
 
-const App = () => {
+export const App = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const name = searchParams.get("name") || "";
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(name);
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const urlQuery = searchParams.get("query") || "";
+  const urlPage = searchParams.get("page") || "1";
+  const [query, setQuery] = useState(urlQuery || "");
+  const [page, setPage] = useState(Number(urlPage) || 1);
 
-  const { data, isLoading, isError } = useFetchCharacters(
-    debouncedSearchTerm,
-    currentPage
-  );
+  const debouncedQuery = useDebounce(query, 300);
 
-  useEffect(() => {
-    setSearchParams({
-      name: debouncedSearchTerm,
-      page: currentPage.toString(),
-    });
-  }, [debouncedSearchTerm, currentPage, setSearchParams]);
+  const { data, isLoading, error } = useSearchResults(debouncedQuery, page);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQuery(value.trim());
+    setPage(1);
+  };
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-    setSearchParams({ name: debouncedSearchTerm, page: newPage.toString() });
+    setPage(newPage);
+    setSearchParams({ name: debouncedQuery, page: newPage.toString() });
   };
 
-  const handleInputChange = (value: string) => {
-    setSearchTerm(value);
-    setCurrentPage(1);
-  };
+  const is404Error =
+    error instanceof AxiosError && error?.response?.status === 404;
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (query) params.set("query", query);
+    if (page > 1) params.set("page", page.toString());
+    setSearchParams(params);
+  }, [query, page, setSearchParams]);
 
   return (
-    <div className={styles.app}>
-      <h1 className={styles.title}>Search characters...</h1>
-      <SearchBar searchTerm={searchTerm} setSearchTerm={handleInputChange} />
-      {searchTerm.length > 2 &&
-        (isLoading ? (
-          <p>Loading...</p>
-        ) : isError ? (
-          <p>Sorry, no such character was found</p>
-        ) : (
-          <>
-            <div className={styles.foundText}>
-              Found characters: {data?.info?.count || 0}
-            </div>
-            <CharacterList characters={data?.results || []} />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={data?.info?.pages || 1}
-              onPageChange={handlePageChange}
-            />
-          </>
-        ))}
+    <div className={styles.search}>
+      <SearchBar onChange={handleInputChange} value={query} />
+      {data?.info?.count && (
+        <div className={styles.foundText}>
+          <span className={styles.foundText__number}>
+            Found characters: {data.info.count}
+          </span>
+        </div>
+      )}
+      <>
+        {debouncedQuery !== "" && debouncedQuery?.length < 4 && (
+          <div>Search query should be longer than 3</div>
+        )}
+        {isLoading && <Loader />}
+        {is404Error && <div>There's nothing there</div>}
+        {!is404Error && error && <div>Unexpected error</div>}
+        <CharacterList characters={data?.results || []} />
+        {data?.info?.pages && data.info.pages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={data?.info?.pages || 1}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </>
     </div>
   );
 };

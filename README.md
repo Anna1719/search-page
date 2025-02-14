@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+# Character Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An app created with **React**, **TypeScript**, and **Vite** to search and display character information.
 
-Currently, two official plugins are available:
+**Deploy**: [peppy-trifle-968999.netlify.app/](peppy-trifle-968999.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
 
-## Expanding the ESLint configuration
+- [General Info](#general-info)
+- [Technologies](#technologies)
+- [Features](#features)
+- [Setup](#setup)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## General Info
 
-- Configure the top-level `parserOptions` property like this:
+This project is a simple search application where users can search for characters by name and view the results.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Technologies
+
+The project is created with:
+
+- **React**: v19.0.0
+- **TypeScript**: v5.7.2
+- **React-router-dom**: v7.1.5
+- **Axios**: v1.7.9
+- **Vite**: v6.1.0
+- **@tanstack/react-query**: v5.66.0
+
+## Features
+
+1. **Search Functionality**
+   - Users can enter a character's name in the search field.
+   - The input automatically focuses on page load for better user experience.
+2. **Real-time API Search**
+   - After typing 3 or more characters, a request is sent to fetch matching results.
+   - Results are displayed on the same page as a list of cards.
+3. **Navigation to Details Page**
+   - Clicking on any card leads to a detailed view using the URL provided by the API.
+
+## Setup
+
+To run this project, download and install it locally using npm:
+
 ```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+$ git clone https://github.com/Anna1719/search-page.git
+$ cd ./search-page
+$ npm install
+$ npm start
 ```

@@ -2,7 +2,7 @@
 
 An app created with **React**, **TypeScript**, and **Vite** to search and display character information.
 
-**Deploy**: [peppy-trifle-968999.netlify.app/](peppy-trifle-968999.netlify.app/)
+**Deploy**: [https://peppy-trifle-968999.netlify.app/](https://peppy-trifle-968999.netlify.app/)
 
 ## Table of Contents
 

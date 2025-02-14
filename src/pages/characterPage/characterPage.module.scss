@@ -5,19 +5,9 @@
   text-align: center;
 }
 
-.imageLink {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: var(--blue);
-  color: var(--white);
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 24px;
-
-  &:hover {
-    background-color: var(--blue);
-  }
+.image {
+  max-width: 300px;
+  max-height: 300px;
 }
 
 .details {

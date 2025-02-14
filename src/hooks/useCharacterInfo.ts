@@ -7,10 +7,11 @@ export const fetchCharacter = async (id: string): Promise<Character> => {
   return data;
 };
 
-export const useCharacter = (id: string) => {
+export const useCharacter = (id: string | undefined) => {
+  const newId = id ? id : "";
   return useQuery({
-    queryKey: ["character", id],
-    queryFn: () => fetchCharacter(id),
+    queryKey: ["character", newId],
+    queryFn: () => fetchCharacter(newId),
     staleTime: 30000,
     retry: false,
   });

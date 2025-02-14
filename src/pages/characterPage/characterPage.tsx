@@ -2,30 +2,27 @@ import { useParams } from "react-router-dom";
 import { useCharacter } from "@/hooks/useCharacterInfo";
 import styles from "./characterPage.module.scss";
 import { Loader } from "@/components/loader";
+import { AxiosError } from "axios";
 
 export const CharacterPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data, isLoading, isError } = useCharacter(id!);
+  const { id } = useParams<{ id: string | undefined }>();
+  const { data, isLoading, error } = useCharacter(id);
 
   const createdDate = data?.created
     ? new Date(data.created).toLocaleDateString("ru-RU")
     : "Unknown";
 
+  const is404Error =
+    error instanceof AxiosError && error?.response?.status === 404;
+
   if (isLoading) return <Loader />;
-  if (isError) return <div>Error fetching character data</div>;
+  if (is404Error) return <div>404 Character Not Found</div>;
 
   return (
     <div className={styles.characterPage}>
       <h1>{data?.name}</h1>
       {data?.image ? (
-        <a
-          href={data.image}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.imageLink}
-        >
-          See image
-        </a>
+        <img src={data.image} alt={data?.name} className={styles.image} />
       ) : (
         <p>No image available</p>
       )}
